@@ -131,24 +131,20 @@ require('lazy').setup({
   },
 
   { 'projekt0n/github-nvim-theme' },
-  
+
   {
-    -- Theme inspired by Atom
-    'cormacrelf/dark-notify',
-    priority = 1000,
-    config = function()
-      local dn = require("dark_notify")
-      dn.run({
-        schemes = {
-          dark  = {
-            colorscheme = "github_dark_high_contrast",
-          },
-          light = {
-            colorscheme = "github_light_high_contrast",
-          }
-        },
-      })
-    end,
+    "f-person/auto-dark-mode.nvim",
+    config = {
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.api.nvim_set_option("background", "dark")
+        vim.cmd("colorscheme github_dark_high_contrast")
+      end,
+      set_light_mode = function()
+        vim.api.nvim_set_option("background", "light")
+        vim.cmd("colorscheme github_light_high_contrast")
+      end,
+    }
   },
 
   {
