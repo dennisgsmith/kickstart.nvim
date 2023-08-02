@@ -56,6 +56,7 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.relativenumber = true
 
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
@@ -129,27 +130,25 @@ require('lazy').setup({
     },
   },
 
+  { 'projekt0n/github-nvim-theme' },
+  
   {
     -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'cormacrelf/dark-notify',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      local dn = require("dark_notify")
+      dn.run({
+        schemes = {
+          dark  = {
+            colorscheme = "github_dark_high_contrast",
+          },
+          light = {
+            colorscheme = "github_light_high_contrast",
+          }
+        },
+      })
     end,
-  },
-
-  {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
   },
 
   {
