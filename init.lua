@@ -130,19 +130,30 @@ require('lazy').setup({
     },
   },
 
-  { 'projekt0n/github-nvim-theme' },
+  {
+    'projekt0n/github-nvim-theme',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup({
+        options = {
+          transparent = true
+        }
+      })
+    end,
+  },
 
   {
     "f-person/auto-dark-mode.nvim",
     config = {
       update_interval = 1000,
       set_dark_mode = function()
-        vim.api.nvim_set_option("background", "dark")
-        vim.cmd("colorscheme github_dark_high_contrast")
+        -- vim.api.nvim_set_option("background", "dark")
+        vim.cmd("colorscheme github_dark")
       end,
       set_light_mode = function()
-        vim.api.nvim_set_option("background", "light")
-        vim.cmd("colorscheme github_light_high_contrast")
+        -- vim.api.nvim_set_option("background", "light")
+        vim.cmd("colorscheme github_light")
       end,
     }
   },
@@ -186,6 +197,13 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  {
+    "nvim-tree/nvim-tree.lua",
+    config = function()
+      vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true })
+    end,
+  },
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -200,6 +218,8 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 }, {})
+
+require'nvim-tree'.setup()
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -366,7 +386,7 @@ require('nvim-treesitter.configs').setup {
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
