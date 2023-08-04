@@ -220,7 +220,11 @@ require('lazy').setup({
 }, {})
 
 -- setup nvim-tree
-require'nvim-tree'.setup()
+require'nvim-tree'.setup({
+  filters = {
+    git_ignored = false,
+  }
+})
 
 -- setup lsp
 local lsp = require('lsp-zero').preset({})
