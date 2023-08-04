@@ -93,19 +93,19 @@ require('lazy').setup({
   },
 
   {
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
+  'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},             -- Required
+      {'williamboman/mason.nvim'},           -- Optional
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
-      -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-
-      -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
-    },
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},     -- Required
+      {'hrsh7th/cmp-nvim-lsp'}, -- Required
+      {'L3MON4D3/LuaSnip'},     -- Required
+    }
   },
 
   -- Useful plugin to show you pending keybinds.
@@ -145,7 +145,7 @@ require('lazy').setup({
 
   {
     "f-person/auto-dark-mode.nvim",
-    config = {
+    opts = {
       update_interval = 1000,
       set_dark_mode = function()
         -- vim.api.nvim_set_option("background", "dark")
@@ -219,7 +219,18 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {})
 
+-- setup nvim-tree
 require'nvim-tree'.setup()
+
+-- setup lsp
+local lsp = require('lsp-zero').preset({})
+lsp.on_attach(function(_, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp.default_keymaps({buffer = bufnr})
+end)
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+lsp.setup()
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
